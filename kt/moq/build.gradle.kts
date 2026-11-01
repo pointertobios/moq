@@ -88,16 +88,16 @@ kotlin {
         // and Kotlin DSL treats those as script compilation errors.
         val commonMain = getByName("commonMain") {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.12.0")
                 // api: the typed JSON helpers are inline+reified, so they
                 // resolve serializers at the consumer's call site.
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
             }
         }
         val commonTest = getByName("commonTest") {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.12.0")
             }
         }
 
