@@ -162,16 +162,19 @@ impl MediaCodec {
 			Codec::Av1 => MIME_AV1,
 		};
 
-		// `GPU_SAMPLED_IMAGE` is what a consumer importing the buffer as a texture
-		// needs; `CPU_READ_OFTEN` is what makes the read-back in
-		// `Surface::into_i420` work at all, at the cost of a layout the device may
-		// otherwise have tiled.
+		// `CPU_READ_OFTEN` alone: the pictures are read back in
+		// `Surface::into_i420`, and asking for `GPU_SAMPLED_IMAGE` as well lets a
+		// device allocate them in whatever layout its GPU samples best. MediaTek,
+		// for one, answers with a tiled buffer whose planes the image's own
+		// pointers do not describe, so the read-back walks the picture as though it
+		// were linear and the frame is noise with the motion still in it. A reader
+		// that only ever reads wants a layout it can address.
 		let (width, height) = DEFAULT_SIZE;
 		let mut reader = ImageReader::new_with_usage(
 			width,
 			height,
 			ImageFormat::YUV_420_888,
-			HardwareBufferUsage::GPU_SAMPLED_IMAGE | HardwareBufferUsage::CPU_READ_OFTEN,
+			HardwareBufferUsage::CPU_READ_OFTEN,
 			QUEUE_DEPTH,
 		)
 		.map_err(|e| reader_err("create an ImageReader", e))?;

@@ -120,7 +120,12 @@ ebml-iterable = "0.7.1"
 flate2 = { version = "1.1", default-features = false }
 futures = "0.3"
 getrandom = { version = "0.4", features = ["wasm_js"] }
-hang = { version = "0.21.19", path = "rs/hang" }
+# The four `moq-video` depends on are taken from crates.io rather than from the
+# checkouts beside them (`rs/hang`, `rs/moq-mux`, `rs/moq-net`, `rs/moq-nvenc`): this branch
+# is consumed as a path dependency, and a path here would put a second copy of
+# each in the consumer's graph beside the published one — two `moq_net` crates,
+# and the catalog and timestamp types they define would not be the same types.
+hang = { version = "0.21.19" }
 hex = "0.4"
 # HMAC-SHA256 for the mDNS membership proofs (moq-tokio's `mdns` feature).
 hmac = "0.13"
@@ -148,8 +153,8 @@ moq-hls = { version = "0.5.19", path = "rs/moq-hls", default-features = false }
 moq-json = { version = "0.5.16", path = "rs/moq-json" }
 moq-loc = { version = "0.2.27", path = "rs/moq-loc" }
 moq-msf = { version = "0.5.1", path = "rs/moq-msf" }
-moq-mux = { version = "0.10.19", path = "rs/moq-mux" }
-moq-net = { version = "0.3.18", path = "rs/moq-net" }
+moq-mux = { version = "0.10.19" }
+moq-net = { version = "0.3.18" }
 # The MoQ fork of noq (moq-dev/noq). iroh keeps upstream noq, so a build with the
 # iroh feature carries both stacks.
 moq-noq-proto = { version = "1.3.5", default-features = false }
@@ -157,7 +162,7 @@ moq-noq-udp = "1.3.5"
 # NVENC bindings, forked from ViliamVadocz/nvidia-video-codec-sdk to dlopen the
 # driver at runtime. Compiles on any platform (macOS included) but only actually
 # used by moq-video on Linux.
-moq-nvenc = { version = "0.1.2", path = "rs/moq-nvenc" }
+moq-nvenc = { version = "0.1.2" }
 moq-pattern = { version = "0.1.3", path = "rs/moq-pattern" }
 moq-relay = { version = "0.17.10", path = "rs/moq-relay", default-features = false }
 moq-rtc = { version = "0.3.20", path = "rs/moq-rtc" }
